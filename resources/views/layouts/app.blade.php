@@ -47,6 +47,8 @@
             <div class="collapse navbar-collapse" id="app-navbar-collapse">
                 <!-- Left Side Of Navbar -->
                 <ul class="nav navbar-nav">
+					<li><a href="{{ url('/posts') }}">Home</a></li>
+					<li><a href="{{ url('/post/create') }}">Create A Post</a></li>
                 </ul>
 
                 <!-- Right Side Of Navbar -->

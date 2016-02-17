@@ -41,6 +41,18 @@ class PostController extends Controller
 		$this->votes = $votes;
     }
 
+	/**
+     * Post creation form
+     *
+     * @param  Request  $request
+     * @return Response
+     */
+	public function create(Request $request)
+    {
+        return view('posts.create');
+    }
+	
+	 
     /**
      * Display a list of posts ordered by votes
      *

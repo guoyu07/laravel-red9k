@@ -30,6 +30,7 @@ Route::group(['middleware' => ['web']], function () {
 
     Route::get('/posts', 'PostController@index');
 	Route::get('/myposts', 'PostController@userIndex');
+	Route::get('/post/create', 'PostController@create');
     Route::post('/post', 'PostController@store');
 	Route::post('/post/{post}/up', 'PostController@up');
 	Route::post('/post/{post}/down', 'PostController@down');
