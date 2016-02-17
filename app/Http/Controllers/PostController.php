@@ -71,6 +71,13 @@ class PostController extends Controller
             'title' => 'required|max:255',
 			'url' => 'required|unique:posts|max:255',
         ]);
+		
+		$error = $this->validateUrl($request->input('url'));
+		if ($error)
+		{
+			return redirect('/posts')->withErrors([$error]);
+		}
+		
 
         $request->user()->posts()->create([
             'title' => $request->title,
@@ -121,4 +128,23 @@ class PostController extends Controller
 		$post->save();
         return response()->json(['votes' => $post->votes]); 
     }
+	
+	/**
+     * Extra url validation
+     *
+     * @param  string url
+     * @return string error || null
+     */
+	 public function validateUrl(string $url)
+	 {
+		if ( preg_match('/http/', $url) == 0 ) return "Url must begin with http";
+		$ch = curl_init($url);
+		curl_exec($ch);
+		$code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+		if (($code == 301) || ($code == 302)) {
+			return "Url may not be a redirect";
+		}
+		if ( preg_match('/#/', $url) == 1 ) return "Url cannot contain '#'";
+		return null;
+	 }
 }
