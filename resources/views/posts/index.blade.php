@@ -64,17 +64,14 @@
 							<tbody>
 								@foreach ($posts as $post)
 									<tr>
-									<!-- Up / Down Buttons -->
+									<!-- Thumbs Up Button -->
 										{{ csrf_field() }}
 										<td>
 												<button id="/post/{{ $post->id }}/up" class="btn btn-success">
 													<i class="fa fa-thumbs-up"></i>
 												</button>
-												<button id="/post/{{ $post->id }}/down" class="btn btn-danger">
-													<i class="fa fa-thumbs-down"></i>
-												</button>
 										</td>
-										<td class="table-text"><div>{{ $post->votes }}</div></td>
+										<td class="table-text"><div>{{ count($post->votes) }}</div></td>
 										<td class="table-text"><div><a href="{{ $post->url }}">{{ $post->title }}</a></div></td>
 										<td class="table-text"><div>{{ $post->user->name }}</div></td>
 									</tr>

@@ -1,1 +1,4 @@
--One vote per user per post
+-Add error message if this ip address has already voted
+-Sort posts by votes
+-Banning
+-Admin section

@@ -6,9 +6,10 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
-
+use App\Vote;
 use App\Post;
 use App\Repositories\PostRepository;
+use App\Repositories\VoteRepository;
 
 class PostController extends Controller
 {
@@ -18,6 +19,13 @@ class PostController extends Controller
      * @var PostRepository
      */
     protected $posts;
+	
+	/**
+     * The vote repository instance.
+     *
+     * @var VoteRepository
+     */
+	protected $votes;
 
     /**
      * Create a new controller instance.
@@ -25,11 +33,12 @@ class PostController extends Controller
      * @param  PostRepository  $posts
      * @return void
      */
-    public function __construct(PostRepository $posts)
+    public function __construct(PostRepository $posts, VoteRepository $votes)
     {
         $this->middleware('auth');
 
         $this->posts = $posts;
+		$this->votes = $votes;
     }
 
     /**
@@ -41,8 +50,8 @@ class PostController extends Controller
     public function index(Request $request)
     {
         return view('posts.index', [
-            'posts' => $this->posts->all(),
-        ]);
+			'posts' => $this->posts->all(),
+		]);
     }
 	
 	 /**
@@ -111,22 +120,19 @@ class PostController extends Controller
      */
 	public function up(Request $request, Post $post)
     {
-		$post->votes = $post->votes + 1;
-		$post->save();
-        return response()->json(['votes' => $post->votes]); 
-    }
-	
-	/**
-     * Thumbs down a post
-     *
-     * @param  Request  $request
-     * @return Response (JSON)
-     */
-	public function down(Request $request, Post $post)
-    {
-		$post->votes = $post->votes - 1;
-		$post->save();
-        return response()->json(['votes' => $post->votes]); 
+		$address = $_SERVER['REMOTE_ADDR'];
+		foreach ( $this->votes->forPost($post) as $vote )
+		{
+			if ($vote->address === $address)
+			{
+				return response()->json(['votes' => count($post->votes)]); 
+			}
+		}
+		$vote = new Vote;
+		$vote->address = $address;
+		$vote->post_id = $post->id;
+		$vote->save();
+        return response()->json(['votes' => count($post->votes)]); 
     }
 	
 	/**

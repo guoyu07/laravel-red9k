@@ -3,6 +3,7 @@
 namespace App;
 
 use App\User;
+use App\Vote;
 use Illuminate\Database\Eloquent\Model;
 
 class Post extends Model
@@ -15,10 +16,18 @@ class Post extends Model
     protected $fillable = ['title', 'url'];
 
     /**
-     * Get the user that owns the post.
+     * The user that owns the post.
      */
     public function user()
     {
         return $this->belongsTo(User::class);
     }
+	
+	/**
+	 * The votes this item has
+	 */
+	public function votes()
+	{
+		return $this->hasMany(Vote::class);
+	}
 }

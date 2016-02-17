@@ -2,8 +2,10 @@
 
 namespace App\Repositories;
 
+use DB;
 use App\User;
 use App\Post;
+use App\Vote;
 
 class PostRepository
 {
@@ -27,7 +29,6 @@ class PostRepository
 	 */
 	public function all()
     {
-        return Post::orderBy('votes', 'desc')
-                    ->get();
+        return Post::get();
     }
 }
