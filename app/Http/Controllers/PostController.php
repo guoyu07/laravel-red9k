@@ -125,14 +125,41 @@ class PostController extends Controller
 		{
 			if ($vote->address === $address)
 			{
-				return response()->json(['votes' => count($post->votes)]); 
+				return response()->json(['votes' => $post->voteCount]); 
 			}
 		}
 		$vote = new Vote;
 		$vote->address = $address;
 		$vote->post_id = $post->id;
 		$vote->save();
-        return response()->json(['votes' => count($post->votes)]); 
+		$post->voteCount = $post->voteCount + 1;
+		$post->save();
+        return response()->json(['votes' => $post->voteCount]); 
+    }
+	
+	/**
+     * Thumbs down a post
+     *
+     * @param  Request  $request
+     * @return Response (JSON)
+     */
+	public function down(Request $request, Post $post)
+    {
+		$address = $_SERVER['REMOTE_ADDR'];
+		foreach ( $this->votes->forPost($post) as $vote )
+		{
+			if ($vote->address === $address)
+			{
+				return response()->json(['votes' => $post->voteCount]); 
+			}
+		}
+		$vote = new Vote;
+		$vote->address = $address;
+		$vote->post_id = $post->id;
+		$vote->save();
+		$post->voteCount = $post->voteCount - 1;
+		$post->save();
+        return response()->json(['votes' => $post->voteCount]); 
     }
 	
 	/**

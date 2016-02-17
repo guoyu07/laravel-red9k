@@ -29,6 +29,7 @@ class PostRepository
 	 */
 	public function all()
     {
-        return Post::get();
+        return Post::orderBy('voteCount', 'desc')
+					->get();
     }
 }

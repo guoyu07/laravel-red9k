@@ -19,16 +19,4 @@ class VoteRepository
         return Vote::where('post_id', $post->id)
                     ->get();
     }
-	
-	/**
-     * Count the votes for posts
-     *
-     * @param  User  $user
-     * @return Integer
-     */
-    public function voteCount()
-    {
-        return DB::select(DB::raw('SELECT p.id, count(v.post_id) AS voteCount FROM posts p LEFT JOIN votes v on p.id = v.post_id GROUP BY p.id;'));
-    }
-	 
 }
