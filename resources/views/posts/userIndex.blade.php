@@ -56,27 +56,26 @@
 					<div class="panel-body">
 						<table class="table table-striped post-table">
 							<thead>
-								<th>&nbsp;</th>
-								<th>Votes</th>
 								<th>Post</th>
 								<th>User</th>
+								<th>&nbsp;</th>
 							</thead>
 							<tbody>
 								@foreach ($posts as $post)
 									<tr>
-									<!-- Up / Down Buttons -->
-										{{ csrf_field() }}
-										<td>
-												<button id="/post/{{ $post->id }}/up" class="btn btn-success">
-													<i class="fa fa-thumbs-up"></i>
-												</button>
-												<button id="/post/{{ $post->id }}/down" class="btn btn-danger">
-													<i class="fa fa-thumbs-down"></i>
-												</button>
-										</td>
-										<td class="table-text"><div>{{ $post->votes }}</div></td>
 										<td class="table-text"><div><a href="{{ $post->url }}">{{ $post->title }}</a></div></td>
 										<td class="table-text"><div>{{ $post->user->name }}</div></td>
+										<!-- Post Delete Button -->
+										<td>
+											<form action="/post/{{ $post->id }}/delete" method="POST">
+												{{ csrf_field() }}
+												{{ method_field('DELETE') }}
+
+												<button type="submit" id="delete-post-{{ $post->id }}" class="btn btn-danger">
+													<i class="fa fa-btn fa-trash"></i>Delete
+												</button>
+											</form>
+										</td>
 									</tr>
 								@endforeach
 							</tbody>
@@ -86,15 +85,4 @@
 			@endif
 		</div>
 	</div>
-<script>
-	var csrf = document.getElementsByName('_token')[0].value;
-	$("button[id^='/post/']").click(function() 
-	{
-		var votes = $(this).closest('td').next('td');
-		$.post($(this).attr('id'), { _token: csrf }, function(data)
-		{
-			votes.text(data.votes);
-		});
-	});
-</script>
 @endsection

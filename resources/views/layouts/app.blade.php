@@ -39,7 +39,7 @@
                 </button>
 
                 <!-- Branding Image -->
-                <a class="navbar-brand" href="{{ url('/') }}">
+                <a class="navbar-brand" href="{{ url('/posts') }}">
                     red9k
                 </a>
             </div>
@@ -62,6 +62,7 @@
                             </a>
 
                             <ul class="dropdown-menu" role="menu">
+								<li><a href="{{ url('/myposts') }}">My Posts</a></li>
                                 <li><a href="{{ url('/logout') }}"><i class="fa fa-btn fa-sign-out"></i>Logout</a></li>
                             </ul>
                         </li>
@@ -70,12 +71,12 @@
             </div>
         </div>
     </nav>
-
-    @yield('content')
-
-    <!-- JavaScripts -->
+	
+	<!-- JavaScripts -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
     {{-- <script src="{{ elixir('js/app.js') }}"></script> --}}
+
+    @yield('content')
 </body>
 </html>

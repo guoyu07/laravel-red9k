@@ -29,9 +29,10 @@ Route::group(['middleware' => ['web']], function () {
     })->middleware('guest');
 
     Route::get('/posts', 'PostController@index');
+	Route::get('/myposts', 'PostController@userIndex');
     Route::post('/post', 'PostController@store');
-    Route::delete('/post/{post}', 'PostController@destroy');
-
+	Route::post('/post/{post}/up', 'PostController@up');
+	Route::post('/post/{post}/down', 'PostController@down');
+    Route::delete('/post/{post}/delete', 'PostController@destroy');
     Route::auth();
-
 });

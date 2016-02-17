@@ -27,7 +27,7 @@ class PostRepository
 	 */
 	public function all()
     {
-        return Post::orderBy('created_at', 'asc')
+        return Post::orderBy('votes', 'desc')
                     ->get();
     }
 }
