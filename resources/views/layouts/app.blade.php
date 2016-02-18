@@ -47,7 +47,11 @@
             <div class="collapse navbar-collapse" id="app-navbar-collapse">
                 <!-- Left Side Of Navbar -->
                 <ul class="nav navbar-nav">
-					<li><a href="{{ url('/posts') }}">Home</a></li>
+					<li><a href="{{ url('/posts') }}">All</a></li>
+                    <li><a href="{{ route('category', ['category' => 'art']) }}">Art</a></li>
+                    <li><a href="{{ route('category', ['category' => 'music']) }}">Music</a></li>
+                    <li><a href="{{ route('category', ['category' => 'writing']) }}">Writing</a></li>
+                    <li><a href="{{ route('category', ['category' => 'video']) }}">Video</a></li>
 					<li><a href="{{ url('/post/create') }}">Create A Post</a></li>
                 </ul>
 
@@ -64,7 +68,7 @@
                             </a>
 
                             <ul class="dropdown-menu" role="menu">
-								<li><a href="{{ url('/myposts') }}">My Posts</a></li>
+								<li><a href="{{ route('user', ['user' => Auth::user()->id]) }}">My Posts</a></li>
                                 <li><a href="{{ url('/logout') }}"><i class="fa fa-btn fa-sign-out"></i>Logout</a></li>
                             </ul>
                         </li>

@@ -7,16 +7,17 @@
 			@if (count($posts) > 0)
 				<div class="panel panel-default">
 					<div class="panel-heading">
-						Current Posts
+						{{ isset($category) ? ucfirst($category) : 'All' }} Posts
 					</div>
 
 					<div class="panel-body">
-						<table class="table table-striped post-table">
+						<table class="table table-condensed post-table">
 							<thead>
 								<th>&nbsp;</th>
 								<th>Votes</th>
 								<th>Post</th>
-								<th>User</th>
+								<th>Category</th>
+								<th>Contributer</th>
 							</thead>
 							<tbody>
 								@foreach ($posts as $post)
@@ -33,13 +34,16 @@
 										</td>
 										<td class="table-text"><div>{{ $post->voteCount }}</div></td>
 										<td class="table-text"><div><a href="{{ $post->url }}">{{ $post->title }}</a></div></td>
-										<td class="table-text"><div>{{ $post->user->name }}</div></td>
+										<td class="table-text"><div>{{ $post->category ? ucfirst($post->category) : 'Misc' }}</div></td>
+										<td class="table-text"><div><a href="{{ route('user', ['user' => $post->user->id]) }}">{{ $post->user->name }}</a></div></td>
 									</tr>
 								@endforeach
 							</tbody>
 						</table>
 					</div>
 				</div>
+			@else
+				There is nothing to show here
 			@endif
 		</div>
 	</div>

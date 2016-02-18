@@ -34,6 +34,21 @@
 							</div>
 						</div>
 
+						<!-- Post Category -->
+						<div class="form-group">
+							<label for="post-category" class="col-sm-3 control-label">Category</label>
+
+							<div class="col-sm-6">
+								<select name="category" id="post-category" class="form-control" value="{{ old('post') }}">
+									<option value="misc">Misc</option>
+									<option value="art">Art</option>
+									<option value="music">Music</option>
+									<option value="writing">Writing</option>
+									<option value="video">Video</option>
+								</select>
+							</div>
+						</div>
+
 						<!-- Add Post Button -->
 						<div class="form-group">
 							<div class="col-sm-offset-3 col-sm-6">

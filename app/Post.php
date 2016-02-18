@@ -13,7 +13,7 @@ class Post extends Model
      *
      * @var array
      */
-    protected $fillable = ['title', 'url'];
+    protected $fillable = ['title', 'url', 'category'];
 
     /**
      * The user that owns the post.

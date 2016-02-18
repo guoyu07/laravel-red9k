@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Repositories\UserRepository;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
@@ -27,32 +28,26 @@ class PostController extends Controller
      */
 	protected $votes;
 
+	/**
+	 * The user repository instance.
+	 *
+	 * @var UserRepository
+	 */
+	protected $users;
+
     /**
      * Create a new controller instance.
      *
      * @param  PostRepository  $posts
      * @return void
      */
-    public function __construct(PostRepository $posts, VoteRepository $votes)
+    public function __construct(PostRepository $posts, VoteRepository $votes, UserRepository $users)
     {
-        $this->middleware('auth');
-
+		$this->users = $users;
         $this->posts = $posts;
 		$this->votes = $votes;
     }
 
-	/**
-     * Post creation form
-     *
-     * @param  Request  $request
-     * @return Response
-     */
-	public function create(Request $request)
-    {
-        return view('posts.create');
-    }
-	
-	 
     /**
      * Display a list of posts ordered by votes
      *
@@ -62,23 +57,47 @@ class PostController extends Controller
     public function index(Request $request)
     {
         return view('posts.index', [
-			'posts' => $this->posts->all(),
+			'posts' => $this->posts->all()
 		]);
     }
-	
-	 /**
-     * Display a list of the users post ordered by create date
-     *
-     * @param  Request  $request
-     * @return Response
-     */
-    public function userIndex(Request $request)
-    {
-        return view('posts.userIndex', [
-            'posts' => $this->posts->forUser($request->user()),
-        ]);
-    }
 
+	/**
+	 * Post creation form
+	 *
+	 * @param  Request  $request
+	 * @return Response
+	 */
+	public function create(Request $request)
+	{
+		return view('posts.create');
+	}
+
+	/**
+	 * Post creation form
+	 *
+	 * @param  Request  $request
+	 * @return Response
+	 */
+	public function edit(Request $request, $postId)
+	{
+		return view('posts.edit', [
+			'post' => $this->posts->find($postId)
+		]);
+	}
+
+	/**
+	 * Display a list of posts in a category ordered by votes
+	 *
+	 * @param  Request  $request
+	 * @return Response
+	 */
+	public function category(Request $request, $category)
+	{
+		return view('posts.index', [
+			'posts' => $this->posts->byCategory($category),
+			'category' => $category,
+		]);
+	}
 
     /**
      * Create a new post.
@@ -103,6 +122,7 @@ class PostController extends Controller
         $request->user()->posts()->create([
             'title' => $request->title,
 			'url' => $request->url,
+			'category' => $request->category,
         ]);
 
         return redirect('/posts');
@@ -180,7 +200,7 @@ class PostController extends Controller
      * @param  string url
      * @return string error || null
      */
-	 public function validateUrl(string $url)
+	 public function validateUrl($url)
 	 {
 		if ( preg_match('/http/', $url) == 0 ) return "Url must begin with http";
 		$ch = curl_init($url);

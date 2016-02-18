@@ -24,16 +24,15 @@
 
 Route::group(['middleware' => ['web']], function () {
 
-    Route::get('/', function () {
-        return view('welcome');
-    })->middleware('guest');
-
+    Route::get('/', function () { return view('welcome'); });
     Route::get('/posts', 'PostController@index');
-	Route::get('/myposts', 'PostController@userIndex');
-	Route::get('/post/create', 'PostController@create');
-    Route::post('/post', 'PostController@store');
-	Route::post('/post/{post}/up', 'PostController@up');
-	Route::post('/post/{post}/down', 'PostController@down');
-    Route::delete('/post/{post}/delete', 'PostController@destroy');
+    Route::get('/posts/category/{category}', ['as' => 'category', 'uses' => 'PostController@category']);
+	Route::get('/post/create', 'PostController@create')->middleware('auth');
+    Route::post('/post/edit/{post}', ['as' => 'edit', 'uses' => 'PostController@edit'])->middleware('auth');
+    Route::post('/post', 'PostController@store')->middleware('auth');
+	Route::post('/post/{post}/up', 'PostController@up')->middleware('auth');
+	Route::post('/post/{post}/down', 'PostController@down')->middleware('auth');
+    Route::delete('/post/{post}/delete', 'PostController@destroy')->middleware('auth');
+    Route::get('user/{user}', ['as' => 'user', 'uses' => 'UserController@index'])->middleware('auth');
     Route::auth();
 });
