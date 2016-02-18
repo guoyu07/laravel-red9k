@@ -1,5 +1,6 @@
--Add error message if ip address has already voted(already disabled, but no message right now)
 -Banning
 -Admin section
 -User profiles
--Anonymous posting?
+-Post comments
+-Pagination
+-Searching

@@ -22,18 +22,22 @@
 							<tbody>
 								@foreach ($posts as $post)
 									<tr>
-									<!-- Thumbs Up Button -->
+									<!-- Thumbs Up/Down Buttons -->
 										{{ csrf_field() }}
 										<td>
 												<button id="/post/{{ $post->id }}/up" class="btn btn-success btn-sm">
 													<i class="fa fa-thumbs-up"></i>
 												</button>
+												<br>
 												<button id="/post/{{ $post->id }}/down" class="btn btn-danger btn-sm">
 													<i class="fa fa-thumbs-down"></i>
 												</button>
 										</td>
 										<td class="table-text"><div>{{ $post->voteCount }}</div></td>
-										<td class="table-text"><div><a href="{{ $post->url }}">{{ $post->title }}</a></div></td>
+										<td class="table-text">
+											<div><a href="{{ $post->url }}">{{ $post->title }}</a></div>
+											<div><a style='font-size: 10px' href="{{ route('comments', ['postId' => $post->id]) }}">Comments</a></div>
+										</td>
 										<td class="table-text"><div>{{ $post->category ? ucfirst($post->category) : 'Misc' }}</div></td>
 										<td class="table-text"><div><a href="{{ route('user', ['user' => $post->user->id]) }}">{{ $post->user->name }}</a></div></td>
 									</tr>
@@ -54,7 +58,14 @@
 		var votes = $(this).closest('td').next('td');
 		$.post($(this).attr('id'), { _token: csrf }, function(data)
 		{
-			votes.text(data.votes);
+			if (data.error)
+			{
+				votes.append(data.error);
+			}
+			else
+			{
+				votes.text(data.votes);
+			}
 		});
 	});
 </script>

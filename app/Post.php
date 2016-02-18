@@ -2,8 +2,6 @@
 
 namespace App;
 
-use App\User;
-use App\Vote;
 use Illuminate\Database\Eloquent\Model;
 
 class Post extends Model
@@ -24,10 +22,18 @@ class Post extends Model
     }
 	
 	/**
-	 * The votes this item has
+	 * The votes this post has
 	 */
 	public function votes()
 	{
 		return $this->hasMany(Vote::class);
+	}
+
+	/*
+	 * The comments this post has
+	 */
+	public function comments()
+	{
+		return $this->hasMany(Comment::class);
 	}
 }

@@ -6,11 +6,11 @@ use App\Repositories\UserRepository;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
-use App\Http\Controllers\Controller;
 use App\Vote;
 use App\Post;
 use App\Repositories\PostRepository;
 use App\Repositories\VoteRepository;
+use App\Repositories\CommentRepository;
 
 class PostController extends Controller
 {
@@ -35,17 +35,28 @@ class PostController extends Controller
 	 */
 	protected $users;
 
+	/**
+	 * The comment repository instance.
+	 *
+	 * @var UserRepository
+	 */
+	protected $comments;
+
     /**
      * Create a new controller instance.
      *
      * @param  PostRepository  $posts
      * @return void
      */
-    public function __construct(PostRepository $posts, VoteRepository $votes, UserRepository $users)
+    public function __construct(PostRepository $posts,
+								VoteRepository $votes,
+								UserRepository $users,
+								CommentRepository $comments)
     {
 		$this->users = $users;
         $this->posts = $posts;
 		$this->votes = $votes;
+		$this->comments = $comments;
     }
 
     /**
@@ -70,19 +81,6 @@ class PostController extends Controller
 	public function create(Request $request)
 	{
 		return view('posts.create');
-	}
-
-	/**
-	 * Post creation form
-	 *
-	 * @param  Request  $request
-	 * @return Response
-	 */
-	public function edit(Request $request, $postId)
-	{
-		return view('posts.edit', [
-			'post' => $this->posts->find($postId)
-		]);
 	}
 
 	/**
@@ -124,9 +122,24 @@ class PostController extends Controller
 			'url' => $request->url,
 			'category' => $request->category,
         ]);
-		
+
 		return redirect('/posts');
-    }
+	}
+
+	/**
+	 * Return comments for this post
+	 *
+	 * @param Request $request
+	 * @param Post $post
+	 * @return $this|\Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+	 */
+	public function comments(Request $request, Post $post)
+	{
+		return view('posts.comments', [
+			'post' => $post,
+			'comments' => $this->comments->forPost($post)
+		]);
+	}
 
     /**
      * Destroy the given post.
@@ -157,7 +170,10 @@ class PostController extends Controller
 		{
 			if ($vote->address === $address)
 			{
-				return response()->json(['votes' => $post->voteCount]); 
+				return response()->json([
+					'votes' => $post->voteCount,
+					'error' => 'This IP Address has already voted on this post'
+				]);
 			}
 		}
 		$vote = new Vote;

@@ -28,7 +28,10 @@ Route::group(['middleware' => ['web']], function () {
     Route::get('/posts', 'PostController@index');
     Route::get('/posts/category/{category}', ['as' => 'category', 'uses' => 'PostController@category']);
 	Route::get('/post/create', 'PostController@create')->middleware('auth');
+	Route::get('/post/{post}/comments', ['as' => 'comments', 'uses' => 'PostController@comments']);
+	Route::get('/post/{post}/comment/create', ['as' => 'comment', 'uses' => 'CommentController@create'])->middleware('auth');
     Route::post('/post', 'PostController@store')->middleware('auth');
+	Route::post('/comment', 'CommentController@store')->middleware('auth');
 	Route::post('/post/{post}/up', 'PostController@up')->middleware('auth');
 	Route::post('/post/{post}/down', 'PostController@down')->middleware('auth');
     Route::delete('/post/{post}/delete', 'PostController@destroy')->middleware('auth');

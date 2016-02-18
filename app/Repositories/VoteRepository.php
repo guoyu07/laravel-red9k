@@ -2,7 +2,6 @@
 
 namespace App\Repositories;
 
-use DB;
 use App\Post;
 use App\Vote;
 
