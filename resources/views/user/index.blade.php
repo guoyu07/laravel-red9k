@@ -7,7 +7,7 @@
 			@if (count($posts) > 0)
 				<div class="panel panel-default">
 					<div class="panel-heading">
-						My Posts
+						Posts by {{$user->name}}
 					</div>
 
 					<div class="panel-body">
