@@ -4,30 +4,11 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Http\Requests;
-use App\Repositories\PostRepository;
-use App\Vote;
 use App\Post;
+use App\Comment;
 
 class CommentController extends Controller
 {
-	/**
-	 * The post repository instance.
-	 *
-	 * @var PostRepository
-	 */
-	protected $posts;
-
-	/**
-	 * Create a new controller instance.
-	 *
-	 * @param  PostRepository  $posts
-	 * @return void
-	 */
-	public function __construct(PostRepository $posts)
-	{
-		$this->posts = $posts;
-	}
-
 	/**
 	 * Comment creation form
 	 *
@@ -49,17 +30,17 @@ class CommentController extends Controller
 	 */
 	public function store(Request $request)
 	{
-		$post = $this->posts->find($request->input('id'));
-
 		$this->validate($request, [
-			'text' => 'required|unique:comments|max:255|',
+			'text' => 'required|max:255',
 		]);
 
-		$post->comments()->create([
-			'text' => $request->text,
-		]);
+		$comment = new Comment;
+		$comment->text = $request->get('text');
+		$comment->post_id = $request->input('id');
+		$comment->user_id = $request->user()->id;
+		$comment->save();
 
-		return redirect(route('comments', ['post' => $post]));
+		return redirect(route('comments', ['post' => $request->input('id')]));
 	}
 	/**
 	 * Destroy the given post.

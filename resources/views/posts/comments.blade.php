@@ -11,7 +11,7 @@
                 <div class="panel-body">
                     <a href="{{route('comment', ['postId' => $post->id])}}">Post a comment</a>
                     @foreach ($comments as $comment)
-                        <div>{{ $comment->text }}</div>
+                        <div>{{ $comment->text }} - {{ $comment->user->name }}</div>
                     @endforeach
                 </div>
         </div>
