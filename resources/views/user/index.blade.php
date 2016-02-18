@@ -16,7 +16,6 @@
 								<th>Post</th>
 								<th>User</th>
 								<th>&nbsp;</th>
-								<th>&nbsp;</th>
 							</thead>
 							<tbody>
 								@foreach ($posts as $post)
@@ -24,23 +23,21 @@
 										<td class="table-text"><div><a href="{{ $post->url }}">{{ $post->title }}</a></div></td>
 										<td class="table-text"><div>{{ $post->user->name }}</div></td>
 
-										<td>
-											<a href="{{ route('edit', ['postId' => $post->id]) }}" class="btn btn-primary btn-sm" role="button"><i class="fa fa-pencil"></i>
-												Edit
-											</a>
-										</td>
+										@if ($post->user->id === Auth::user()->id)
+											<!-- Post Delete Button -->
+											<td>
+												<form action="/post/{{ $post->id }}/delete" method="POST">
+													{{ csrf_field() }}
+													{{ method_field('DELETE') }}
 
-										<!-- Post Delete Button -->
-										<td>
-											<form action="/post/{{ $post->id }}/delete" method="POST">
-												{{ csrf_field() }}
-												{{ method_field('DELETE') }}
-
-												<button type="submit" id="delete-post-{{ $post->id }}" class="btn btn-danger btn-sm">
-													<i class="fa fa-btn fa-trash"></i>Delete
-												</button>
-											</form>
-										</td>
+													<button type="submit" id="delete-post-{{ $post->id }}" class="btn btn-danger btn-sm">
+														<i class="fa fa-btn fa-trash"></i>Delete
+													</button>
+												</form>
+											</td>
+										@else
+											<td>&nbsp;</td>
+										@endif
 									</tr>
 								@endforeach
 							</tbody>

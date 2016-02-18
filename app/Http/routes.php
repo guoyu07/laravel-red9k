@@ -28,7 +28,6 @@ Route::group(['middleware' => ['web']], function () {
     Route::get('/posts', 'PostController@index');
     Route::get('/posts/category/{category}', ['as' => 'category', 'uses' => 'PostController@category']);
 	Route::get('/post/create', 'PostController@create')->middleware('auth');
-    Route::post('/post/edit/{post}', ['as' => 'edit', 'uses' => 'PostController@edit'])->middleware('auth');
     Route::post('/post', 'PostController@store')->middleware('auth');
 	Route::post('/post/{post}/up', 'PostController@up')->middleware('auth');
 	Route::post('/post/{post}/down', 'PostController@down')->middleware('auth');

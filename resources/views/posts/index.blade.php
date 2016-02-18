@@ -17,7 +17,7 @@
 								<th>Votes</th>
 								<th>Post</th>
 								<th>Category</th>
-								<th>Contributer</th>
+								<th>Contributor</th>
 							</thead>
 							<tbody>
 								@foreach ($posts as $post)
@@ -25,10 +25,10 @@
 									<!-- Thumbs Up Button -->
 										{{ csrf_field() }}
 										<td>
-												<button id="/post/{{ $post->id }}/up" class="btn btn-success">
+												<button id="/post/{{ $post->id }}/up" class="btn btn-success btn-sm">
 													<i class="fa fa-thumbs-up"></i>
 												</button>
-												<button id="/post/{{ $post->id }}/down" class="btn btn-danger">
+												<button id="/post/{{ $post->id }}/down" class="btn btn-danger btn-sm">
 													<i class="fa fa-thumbs-down"></i>
 												</button>
 										</td>

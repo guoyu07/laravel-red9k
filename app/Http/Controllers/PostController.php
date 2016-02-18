@@ -100,7 +100,7 @@ class PostController extends Controller
 	}
 
     /**
-     * Create a new post.
+     * Create or edit a post
      *
      * @param  Request  $request
      * @return Response
@@ -111,11 +111,11 @@ class PostController extends Controller
             'title' => 'required|max:255',
 			'url' => 'required|unique:posts|max:255',
         ]);
-		
+
 		$error = $this->validateUrl($request->input('url'));
 		if ($error)
 		{
-			return redirect('/posts')->withErrors([$error]);
+			return redirect('/post/create')->withErrors([$error]);
 		}
 		
 
@@ -124,8 +124,8 @@ class PostController extends Controller
 			'url' => $request->url,
 			'category' => $request->category,
         ]);
-
-        return redirect('/posts');
+		
+		return redirect('/posts');
     }
 
     /**

@@ -41,6 +41,17 @@ class PostRepository
         return Post::find($postId);
     }
 
+	/**
+	 * Find a post by url
+	 * @param $url
+	 * @return Post
+	 */
+	public function findByUrl($url)
+	{
+		return Post::where('url', $url)
+					->firstOrFail();
+	}
+
     /**
      * Get posts by category
      *
