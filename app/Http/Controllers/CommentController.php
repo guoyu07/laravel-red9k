@@ -37,8 +37,8 @@ class CommentController extends Controller
 		$newComment = new Comment;
 		$newComment->text = $request->get('text');
 		$newComment->post_id = $post->id;
-		$newComment->parent_id = $comment->id;
-		if (!$newComment->parent_id) $newComment->parent_id = 0;
+		$newComment->comment_id = $comment->id;
+		if (!$newComment->comment_id) $newComment->comment_id = 0;
 		$newComment->user_id = $request->user()->id;
 		$newComment->save();
 

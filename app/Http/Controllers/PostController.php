@@ -151,9 +151,10 @@ class PostController extends Controller
 	 */
 	public function comments(Request $request, Post $post)
 	{
+		$parents = $this->comments->forPost($post);
 		return view('posts.comments', [
 			'post' => $post,
-			'comments' => $this->comments->forPost($post)
+			'comments' => $parents
 		]);
 	}
 

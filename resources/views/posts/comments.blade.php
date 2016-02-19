@@ -21,6 +21,36 @@
                                         <i class="fa fa-reply"></i> Reply
                                     </button>
                                 </div>
+                                @if ($comment->replies)
+                                    <br>
+                                    @foreach($comment->replies as $reply)
+                                        <div class="well">
+                                            <div>{{ $reply->text }} - {{ $reply->user->name }}</div>
+
+                                            <!-- Reply Button -->
+                                            <div>
+                                                <button id="/comment/{{$post->id}}/{{ $reply->id }}" class="btn btn-primary btn-xs">
+                                                    <i class="fa fa-reply"></i> Reply
+                                                </button>
+                                            </div>
+                                        @if ($reply->replies)
+                                            <br>
+                                            @foreach($reply->replies as $reply2)
+                                                <div class="well">
+                                                    <div>{{ $reply2->text }} - {{ $reply2->user->name }}</div>
+
+                                                    <!-- Go to Comment Thread -->
+                                                    <div>
+                                                        <button id="/comment/{{$post->id}}/{{ $reply2->id }}" class="btn btn-primary btn-xs">
+                                                            <i class="fa fa-reply"></i> Go to full comment thread
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            @endforeach
+                                        @endif
+                                        </div>
+                                    @endforeach
+                                @endif
                             </div>
                         @endforeach
                     </div>
@@ -44,14 +74,10 @@
             $.post(id, { _token: csrf, text: text, comment_id: 0 }, function(data)
             {
                 $("#comments").prepend(
+                        'Comment Posted!' +
                         '<div class="well">' +
                             data.comment +
                             ' - {{Auth::user()->name}}' +
-                            '<div>' +
-                                '<button id="/comment/{{$post->id}}/' + data.id + '" class="btn btn-primary btn-xs">' +
-                                    '<i class="fa fa-reply"></i> Reply' +
-                                '</button>' +
-                            '</div>' +
                         '</div>'
                 );
             });
