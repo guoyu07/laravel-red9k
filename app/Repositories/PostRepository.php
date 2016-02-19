@@ -11,7 +11,7 @@ class PostRepository
      * Get all of the posts for a given user.
      *
      * @param  $user
-     * @return Collection
+     * @return Post Collection
      */
     public function forUser($user)
     {
@@ -23,18 +23,18 @@ class PostRepository
 	/**
 	 * Get all posts
 	 *
-	 * @return Collection
+	 * @return Post Collection
 	 */
 	public function all()
     {
         return Post::orderBy('voteCount', 'desc')
-					->get();
+					->simplePaginate(25);
     }
 
     /**
      * Find a post
      * @param $postId
-     * @return Post
+     * @return Post Collection
      */
     public function find($postId)
     {
@@ -52,15 +52,27 @@ class PostRepository
 					->firstOrFail();
 	}
 
+	/**
+	 * Find posts with a term in their title
+	 * @param $term
+	 * @return Post Collection
+	 */
+	public function search($term)
+	{
+		return Post::where('title', 'like', '%' . $term . '%')
+					->orderBy('voteCount', 'desc')
+					->simplePaginate(25);
+	}
+
     /**
      * Get posts by category
      *
-     * @return Collection
+     * @return Post Collection
      */
     public function byCategory($category)
     {
         return Post::where('category', $category)
                     ->orderBy('voteCount', 'desc')
-                    ->get();
+					->simplePaginate(25);
     }
 }

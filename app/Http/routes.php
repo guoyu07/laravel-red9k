@@ -26,6 +26,7 @@ Route::group(['middleware' => ['web']], function () {
 
     Route::get('/', function () { return view('welcome'); });
     Route::get('/posts', 'PostController@index');
+	Route::get('/posts/search', 'PostController@search');
     Route::get('/posts/category/{category}', ['as' => 'category', 'uses' => 'PostController@category']);
 	Route::get('/post/create', 'PostController@create')->middleware('auth');
 	Route::get('/post/{post}/comments', ['as' => 'comments', 'uses' => 'PostController@comments']);

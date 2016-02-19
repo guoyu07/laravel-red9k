@@ -1,6 +1,6 @@
 -Banning
 -Admin section
 -User profiles
--Post comments
--Pagination
--Searching
+-Advanced search
+-Comment voting
+-Comment replies

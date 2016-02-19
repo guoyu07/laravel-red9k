@@ -97,6 +97,22 @@ class PostController extends Controller
 		]);
 	}
 
+	/**
+	 * Display a list of posts in a category ordered by votes
+	 *
+	 * @param  Request  $request
+	 * @return Response
+	 */
+	public function search(Request $request)
+	{
+		$term = $_GET['q'];
+
+		return view('posts.index', [
+			'posts' => $this->posts->search($term),
+			'term' => $term,
+		]);
+	}
+
     /**
      * Create or edit a post
      *
@@ -198,7 +214,10 @@ class PostController extends Controller
 		{
 			if ($vote->address === $address)
 			{
-				return response()->json(['votes' => $post->voteCount]); 
+				return response()->json([
+					'votes' => $post->voteCount,
+					'error' => 'This IP Address has already voted on this post'
+				]);
 			}
 		}
 		$vote = new Vote;

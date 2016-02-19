@@ -2,7 +2,7 @@
 
 @section('content')
 	<div class="container">
-		<div class="col-sm-offset-2 col-sm-8">
+		<div class="col-sm-offset-1 col-sm-10">
 			<!-- Current Posts -->
 			@if (count($posts) > 0)
 				<div class="panel panel-default">

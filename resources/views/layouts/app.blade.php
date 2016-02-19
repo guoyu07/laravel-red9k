@@ -57,6 +57,8 @@
 
                 <!-- Right Side Of Navbar -->
                 <ul class="nav navbar-nav navbar-right">
+                    <li><a><input type="text" class="form-control input-sm" id="term" placeholder="Search" /></a></li>
+                    <li><a><button class="btn btn-sm" type="button" id="search"><i class="fa fa-search"></i></button></a></li>
                     <!-- Authentication Links -->
                     @if (Auth::guest())
                         <li><a href="{{ url('/login') }}">Login</a></li>
@@ -83,6 +85,11 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
     {{-- <script src="{{ elixir('js/app.js') }}"></script> --}}
 
+    <script>
+        $("#search").click(function() {
+            window.location.assign("/posts/search?q=" + $("#term").val());
+        });
+    </script>
     @yield('content')
 </body>
 </html>

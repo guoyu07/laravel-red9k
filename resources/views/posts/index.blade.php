@@ -2,12 +2,12 @@
 
 @section('content')
 	<div class="container">
-		<div class="col-sm-offset-2 col-sm-8">
+		<div class="col-sm-offset-1 col-sm-10">
 			<!-- Current Posts -->
 			@if (count($posts) > 0)
 				<div class="panel panel-default">
 					<div class="panel-heading">
-						{{ isset($category) ? ucfirst($category) : 'All' }} Posts
+						{{ isset($category) ? ucfirst($category) : 'All' }} Posts {{ isset($term) ? 'with ' . $term : '' }}
 					</div>
 
 					<div class="panel-body">
@@ -45,6 +45,7 @@
 							</tbody>
 						</table>
 					</div>
+					{!! $posts->render() !!}
 				</div>
 			@else
 				There is nothing to show here
