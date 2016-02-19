@@ -11,6 +11,7 @@ use App\Post;
 use App\Repositories\PostRepository;
 use App\Repositories\VoteRepository;
 use App\Repositories\CommentRepository;
+use Illuminate\Support\Facades\Auth;
 
 class PostController extends Controller
 {
@@ -121,6 +122,9 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
+		//check if they're banned
+		$this->isBanned($request);
+
         $this->validate($request, [
             'title' => 'required|max:255',
 			'url' => 'required|unique:posts|max:255',
@@ -131,7 +135,6 @@ class PostController extends Controller
 		{
 			return redirect('/post/create')->withErrors([$error]);
 		}
-		
 
         $request->user()->posts()->create([
             'title' => $request->title,
@@ -236,7 +239,7 @@ class PostController extends Controller
      * @param  string url
      * @return string error || null
      */
-	 public function validateUrl($url)
+	 private function validateUrl($url)
 	 {
 		if ( preg_match('/http/', $url) == 0 ) return "Url must begin with http";
 		$ch = curl_init($url);
@@ -248,4 +251,24 @@ class PostController extends Controller
 		if ( preg_match('/#/', $url) == 1 ) return "Url cannot contain '#'";
 		return null;
 	 }
+
+	/**
+	 * Check if user is banned.  If so force logout.
+	 */
+	private function isBanned(Request $request)
+	{
+		foreach($this->users->banned() as $user)
+		{
+			if ($user->address == request()->ip())
+			{
+				Auth::logout();
+				return view('auth.banned');
+			}
+		}
+		if ($request->user()->banned)
+		{
+			Auth::logout();
+			return view('auth.banned');
+		}
+	}
 }
