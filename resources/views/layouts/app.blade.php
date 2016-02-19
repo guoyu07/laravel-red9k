@@ -57,8 +57,6 @@
 
                 <!-- Right Side Of Navbar -->
                 <ul class="nav navbar-nav navbar-right">
-                    <li><a><input type="text" class="form-control input-sm" id="term" placeholder="Search" /></a></li>
-                    <li><a><button class="btn btn-sm" type="button" id="search"><i class="fa fa-search"></i></button></a></li>
                     <!-- Authentication Links -->
                     @if (Auth::guest())
                         <li><a href="{{ url('/login') }}">Login</a></li>
@@ -76,6 +74,14 @@
                         </li>
                     @endif
                 </ul>
+            </div>
+            <div class="row">
+                <div class="pull-right">
+                    <button class="btn btn-sm" type="button" id="search"><i class="fa fa-search"></i></button>
+                </div>
+                <div class="pull-right">
+                    <input type="text" class="form-control input-sm" id="term" placeholder="Search">
+                </div>
             </div>
         </div>
     </nav>

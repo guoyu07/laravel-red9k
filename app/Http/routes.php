@@ -45,6 +45,7 @@ Route::group(['middleware' => ['web']], function () {
 	 */
 	Route::post('/comment/{post}/{comment?}', 'CommentController@store')->middleware('auth');
 	Route::post('/commend/{comment}', 'CommentController@up')->middleware('auth');
+	Route::delete('/comment/{comment}/delete', 'CommentController@destroy')->middleware('auth');
 
 	/*
 	 * Users

@@ -13,12 +13,24 @@ class CommentRepository
      *
      * @param Post $post
      * @param integer $commentId
-     * @return Post Collection
+     * @return Comment Collection
      */
     public function forPost(Post $post, $commentId = 0)
     {
         return Comment::where('post_id', $post->id)
                 ->where('comment_id', $commentId)
                 ->simplePaginate(25);
+    }
+
+    /**
+     * Get the users comments
+     *
+     * @param $user
+     * @return Comment Collection
+     */
+    public function forUser($user)
+    {
+        return Comment::where('user_id', $user)
+            ->simplePaginate(25);
     }
 }

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Repositories\CommentRepository;
 use App\Repositories\UserRepository;
 use Illuminate\Http\Request;
 
@@ -26,15 +27,23 @@ class UserController extends Controller
     protected $users;
 
     /**
+     * The post repository instance.
+     *
+     * @var PostRepository
+     */
+    protected $comments;
+
+    /**
      * Create a new controller instance.
      *
      * @param  PostRepository  $posts
      * @return void
      */
-    public function __construct(PostRepository $posts, UserRepository $users)
+    public function __construct(PostRepository $posts, UserRepository $users, CommentRepository $comments)
     {
         $this->users = $users;
         $this->posts = $posts;
+        $this->comments = $comments;
     }
 
     /**
@@ -47,28 +56,8 @@ class UserController extends Controller
     {
         return view('user.index', [
             'user' => $this->users->find($user),
-            'posts' => $this->posts->forUser($user)
+            'posts' => $this->posts->forUser($user),
+            'comments' => $this->comments->forUser($user)
         ]);
-    }
-
-    /**
-     * Check if user is banned.  If so force logout.
-     */
-    public function isBanned(Request $request)
-    {
-        foreach($this->users->banned() as $user)
-        {
-            if ($user->address == request()->ip())
-            {
-                Auth::logout();
-                return view('auth.banned');
-            }
-        }
-        if ($request->user()->banned)
-        {
-            Auth::logout();
-            return view('auth.banned');
-        }
-        return redirect('/posts');
     }
 }
