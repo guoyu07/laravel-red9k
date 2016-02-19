@@ -9,7 +9,14 @@
                 </div>
                 {{ csrf_field() }}
                 <div class="panel-body">
+
+                    <!-- Comment button -->
+                    @if (Auth::check())
                     <button id="/comment/{{$post->id}}" class="btn btn-primary btn-sm"><i class="fa fa-comments-o"></i> Post a comment</button><br><br>
+                    @else
+                    Log in to post comments<br><br>
+                    @endif
+
                     <div id="comments">
                         @foreach ($comments as $comment)
                             <div class="well">
@@ -17,9 +24,11 @@
 
                                 <!-- Reply Button -->
                                 <div>
+                                    @if (Auth::check())
                                     <button id="/comment/{{$post->id}}/{{ $comment->id }}" class="btn btn-primary btn-xs">
                                         <i class="fa fa-reply"></i> Reply
                                     </button>
+                                    @endif
                                 </div>
                                 @if ($comment->replies)
                                     <br>
@@ -29,9 +38,11 @@
 
                                             <!-- Reply Button -->
                                             <div>
+                                                @if (Auth::check())
                                                 <button id="/comment/{{$post->id}}/{{ $reply->id }}" class="btn btn-primary btn-xs">
                                                     <i class="fa fa-reply"></i> Reply
                                                 </button>
+                                                @endif
                                             </div>
                                         @if ($reply->replies)
                                             <br>
@@ -41,9 +52,9 @@
 
                                                     <!-- Go to Comment Thread -->
                                                     <div>
-                                                        <button id="/comment/{{$post->id}}/{{ $reply2->id }}" class="btn btn-primary btn-xs">
+                                                        <a href="/comment/{{$post->id}}/{{ $reply2->id }}/full" class="btn btn-success btn-xs">
                                                             <i class="fa fa-reply"></i> Go to full comment thread
-                                                        </button>
+                                                        </a>
                                                     </div>
                                                 </div>
                                             @endforeach
@@ -77,7 +88,7 @@
                         'Comment Posted!' +
                         '<div class="well">' +
                             data.comment +
-                            ' - {{Auth::user()->name}}' +
+                            ' - {{Auth::check() ? Auth::user()->name : ''}}' +
                         '</div>'
                 );
             });

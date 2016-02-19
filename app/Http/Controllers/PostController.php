@@ -182,7 +182,7 @@ class PostController extends Controller
      */
 	public function up(Request $request, Post $post)
     {
-		$address = $_SERVER['REMOTE_ADDR'];
+		$address = request()->ip();
 		foreach ( $this->votes->forPost($post) as $vote )
 		{
 			if ($vote->address === $address)
@@ -210,7 +210,7 @@ class PostController extends Controller
      */
 	public function down(Request $request, Post $post)
     {
-		$address = $_SERVER['REMOTE_ADDR'];
+		$address = request()->ip();
 		foreach ( $this->votes->forPost($post) as $vote )
 		{
 			if ($vote->address === $address)

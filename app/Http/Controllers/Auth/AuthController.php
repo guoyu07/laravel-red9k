@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Http\Requests\Request;
 use App\User;
 use Validator;
 use App\Http\Controllers\Controller;
@@ -28,7 +29,7 @@ class AuthController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/posts';
+    protected $redirectTo = '/banlist';
 
     /**
      * Create a new authentication controller instance.
@@ -67,6 +68,7 @@ class AuthController extends Controller
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => bcrypt($data['password']),
+            'address' => request()->ip(),
         ]);
     }
 }

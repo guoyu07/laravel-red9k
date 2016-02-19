@@ -16,4 +16,13 @@ class UserRepository
     {
         return User::find($userId);
     }
+
+    /*
+     * Return all banned users
+     */
+    public function banned()
+    {
+        return User::where('banned', 1)
+                    ->get();
+    }
 }

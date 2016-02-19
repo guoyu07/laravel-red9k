@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use App\Repositories\PostRepository;
+use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
@@ -48,5 +49,26 @@ class UserController extends Controller
             'user' => $this->users->find($user),
             'posts' => $this->posts->forUser($user)
         ]);
+    }
+
+    /**
+     * Check if user is banned.  If so force logout.
+     */
+    public function isBanned(Request $request)
+    {
+        foreach($this->users->banned() as $user)
+        {
+            if ($user->address == request()->ip())
+            {
+                Auth::logout();
+                return view('auth.banned');
+            }
+        }
+        if ($request->user()->banned)
+        {
+            Auth::logout();
+            return view('auth.banned');
+        }
+        return redirect('/posts');
     }
 }

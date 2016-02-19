@@ -37,5 +37,6 @@ Route::group(['middleware' => ['web']], function () {
 	Route::post('/post/{post}/down', 'PostController@down')->middleware('auth');
     Route::delete('/post/{post}/delete', 'PostController@destroy')->middleware('auth');
     Route::get('user/{user}', ['as' => 'user', 'uses' => 'UserController@index'])->middleware('auth');
+	Route::get('banlist', 'UserController@isBanned');
     Route::auth();
 });

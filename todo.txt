@@ -1,6 +1,5 @@
--Banning
 -Admin section
 -User profiles
 -Advanced search
 -Comment voting
--Comment replies
+-Infinite comment nesting on /comment/id/full
