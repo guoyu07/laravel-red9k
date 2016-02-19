@@ -48,10 +48,10 @@
                 <!-- Left Side Of Navbar -->
                 <ul class="nav navbar-nav">
 					<li><a href="{{ url('/posts') }}">All</a></li>
-                    <li><a href="{{ route('category', ['category' => 'art']) }}">Art</a></li>
-                    <li><a href="{{ route('category', ['category' => 'music']) }}">Music</a></li>
-                    <li><a href="{{ route('category', ['category' => 'writing']) }}">Writing</a></li>
-                    <li><a href="{{ route('category', ['category' => 'video']) }}">Video</a></li>
+                    <li><a href="{{ route('category', ['category' => 'art']) }}"><i class="fa fa-picture-o"></i> Art</a></li>
+                    <li><a href="{{ route('category', ['category' => 'music']) }}"><i class="fa fa-music"></i> Music</a></li>
+                    <li><a href="{{ route('category', ['category' => 'writing']) }}"><i class="fa fa-pencil-square-o"></i> Writing</a></li>
+                    <li><a href="{{ route('category', ['category' => 'video']) }}"><i class="fa fa-video-camera"></i> Video</a></li>
 					<li><a href="{{ url('/post/create') }}">Create A Post</a></li>
                 </ul>
 

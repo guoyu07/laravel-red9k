@@ -6,7 +6,9 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Post;
 use App\Comment;
+use App\CommentVote;
 use App\Repositories\UserRepository;
+use App\Repositories\CommentVoteRepository;
 use Illuminate\Support\Facades\Auth;
 
 class CommentController extends Controller
@@ -19,21 +21,30 @@ class CommentController extends Controller
 	protected $users;
 
 	/**
+	 * The comment vote repository instance.
+	 *
+	 * @var CommentRepository
+	 */
+	protected $commentVotes;
+
+	/**
 	 * Create a new controller instance.
 	 *
-	 * @param  PostRepository  $posts
-	 * @return void
+	 * @param  UserRepository  $users
 	 */
-	public function __construct(UserRepository $users)
+
+	public function __construct(UserRepository $users, CommentVoteRepository $commentVotes)
 	{
 		$this->users = $users;
+		$this->commentVotes = $commentVotes;
 	}
 
 	/**
 	 * Comment creation form
 	 *
-	 * @param  Request  $request
-	 * @return Response
+	 * @param Request $request
+	 * @param Post $post
+	 * @return view
 	 */
 	public function create(Request $request, Post $post)
 	{
@@ -46,7 +57,7 @@ class CommentController extends Controller
 	 * Create a comment
 	 *
 	 * @param  Request  $request
-	 * @return Response (JSON)
+	 * @return JSON
 	 */
 	public function store(Request $request, Post $post, Comment $comment = null)
 	{
@@ -69,9 +80,37 @@ class CommentController extends Controller
 	}
 
 	/**
-	 * Destroy the given post.
+	 * Commend a comment
 	 *
 	 * @param  Request  $request
+	 * @return Response (JSON)
+	 */
+	public function up(Request $request, Comment $comment)
+	{
+		$address = request()->ip();
+		foreach ( $this->commentVotes->forComment($comment) as $vote )
+		{
+			if ($vote->address === $address)
+			{
+				return response()->json([
+					'votes' => $comment->voteCount,
+					'error' => 'This IP Address has already commended this comment'
+				]);
+			}
+		}
+		$vote = new CommentVote;
+		$vote->address = $address;
+		$vote->comment_id = $comment->id;
+		$vote->save();
+		$comment->voteCount = $comment->voteCount + 1;
+		$comment->save();
+		return response()->json(['votes' => $comment->voteCount]);
+	}
+
+	/**
+	 * Destroy the comment.
+	 *
+	 * @param  Request $request
 	 * @param  Comment $comment
 	 * @return Response
 	 */
@@ -86,6 +125,9 @@ class CommentController extends Controller
 
 	/**
 	 * Check if user is banned.  If so force logout.
+	 *
+	 * @param Request $request
+	 * @return view || none
 	 */
 	private function isBanned(Request $request)
 	{

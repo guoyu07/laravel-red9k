@@ -11,11 +11,13 @@ function displayComments($comments, $post)
     foreach($comments as $comment)
     {
         echo '<div class="well">';
-        echo '<div>' . $comment->text . '-' . $comment->user->name . '</div>';
+        echo '<div>';
+        echo $comment->text . '-' . $comment->user->name . '</div>';
         echo '<div>';
         if (Auth::check())
         {
-            echo '<button id="/comment/' . $post->id . '/' . $comment->id .'" class="btn btn-primary btn-xs"><i class="fa fa-reply"></i> Reply</button>';
+            echo '<button id="/comment/' . $post->id . '/' . $comment->id .'" class="btn btn-primary btn-xs"><i class="fa fa-reply"></i> Reply</button> ';
+            echo '<button id="/commend/' . $comment->id .'" class="btn btn-success btn-xs"><i class="fa fa-thumbs-up"></i> Commend (' . $comment->voteCount .')</button>';
         }
         if ($comment->replies)
         {
@@ -47,6 +49,7 @@ function displayComments($comments, $post)
                     <div id="comments">
                         <?php displayComments($comments, $post) ?>
                     </div>
+                    {!! $comments->render() !!}
                 </div>
         </div>
     </div>
@@ -75,6 +78,23 @@ function displayComments($comments, $post)
                 );
             });
         }
+    });
+
+    var csrf = document.getElementsByName('_token')[0].value;
+    $("button[id^='/commend']").click(function()
+    {
+        var button = $(this);
+        $.post($(this).attr('id'), { _token: csrf }, function(data)
+        {
+            if (data.error)
+            {
+                button.append(data.error);
+            }
+            else
+            {
+                button.html('<i class="fa fa-thumbs-up"></i> Commend (' + data.votes + ')');
+            }
+        });
     });
 </script>
 @endsection

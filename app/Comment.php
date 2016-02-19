@@ -11,7 +11,7 @@ class Comment extends Model
 	 *
 	 * @var array
 	 */
-	protected $fillable = ['text'];
+	protected $fillable = ['text', 'voteCount'];
 
 	/**
 	 * The post that owns this comment.
@@ -30,6 +30,14 @@ class Comment extends Model
 	}
 
 	/*
+	 * The votes that belong to this comment
+	 */
+	public function votes()
+	{
+		return $this->hasMany(CommentVote::class);
+	}
+
+	/*
 	 * The replies to this comment
 	 */
 	public function replies()
@@ -40,7 +48,7 @@ class Comment extends Model
 	/*
 	 * The parent of this comment
 	 */
-	public function parent()
+	public function comment()
 	{
 		return $this->belongsTo(Comment::class);
 	}

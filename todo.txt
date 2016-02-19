@@ -2,3 +2,4 @@
 -User profiles
 -Advanced search
 -Comment voting
+-Comment deletion

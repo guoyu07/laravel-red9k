@@ -25,6 +25,10 @@
 Route::group(['middleware' => ['web']], function () {
 
     Route::get('/', function () { return view('welcome'); });
+
+	/*
+	 * Posts
+	 */
     Route::get('/posts', 'PostController@index');
 	Route::get('/posts/search', 'PostController@search');
     Route::get('/posts/category/{category}', ['as' => 'category', 'uses' => 'PostController@category']);
@@ -32,10 +36,19 @@ Route::group(['middleware' => ['web']], function () {
 	Route::get('/post/{post}/comments', ['as' => 'comments', 'uses' => 'PostController@comments']);
 	Route::get('/post/{post}/comment/create', ['as' => 'comment', 'uses' => 'CommentController@create'])->middleware('auth');
     Route::post('/post', 'PostController@store')->middleware('auth');
-	Route::post('/comment/{post}/{comment?}', 'CommentController@store')->middleware('auth');
 	Route::post('/post/{post}/up', 'PostController@up')->middleware('auth');
 	Route::post('/post/{post}/down', 'PostController@down')->middleware('auth');
-    Route::delete('/post/{post}/delete', 'PostController@destroy')->middleware('auth');
+	Route::delete('/post/{post}/delete', 'PostController@destroy')->middleware('auth');
+
+	/*
+	 * Comments
+	 */
+	Route::post('/comment/{post}/{comment?}', 'CommentController@store')->middleware('auth');
+	Route::post('/commend/{comment}', 'CommentController@up')->middleware('auth');
+
+	/*
+	 * Users
+	*/
     Route::get('user/{user}', ['as' => 'user', 'uses' => 'UserController@index'])->middleware('auth');
 	Route::get('banlist', 'UserController@isBanned');
     Route::auth();

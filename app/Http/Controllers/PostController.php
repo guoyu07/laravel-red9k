@@ -99,7 +99,7 @@ class PostController extends Controller
 	}
 
 	/**
-	 * Display a list of posts in a category ordered by votes
+	 * Return posts with 'term' in their title
 	 *
 	 * @param  Request  $request
 	 * @return Response
@@ -115,7 +115,7 @@ class PostController extends Controller
 	}
 
     /**
-     * Create or edit a post
+     * Create a post
      *
      * @param  Request  $request
      * @return Response
