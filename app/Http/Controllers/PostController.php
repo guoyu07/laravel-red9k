@@ -154,10 +154,11 @@ class PostController extends Controller
 	 */
 	public function comments(Request $request, Post $post)
 	{
-		$parents = $this->comments->forPost($post);
+		$comments = $this->comments->forPost($post);
+
 		return view('posts.comments', [
 			'post' => $post,
-			'comments' => $parents
+			'comments' => $comments,
 		]);
 	}
 
@@ -245,8 +246,8 @@ class PostController extends Controller
 		$ch = curl_init($url);
 		curl_exec($ch);
 		$code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-		if (($code == 301) || ($code == 302)) {
-			return "Url may not be a redirect";
+		if ($code != 200) {
+			return "Invalid status code";
 		}
 		if ( preg_match('/#/', $url) == 1 ) return "Url cannot contain '#'";
 		return null;

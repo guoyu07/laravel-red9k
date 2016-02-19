@@ -2,4 +2,3 @@
 -User profiles
 -Advanced search
 -Comment voting
--Infinite comment nesting on /comment/id/full

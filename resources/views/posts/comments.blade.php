@@ -1,5 +1,32 @@
 @extends('layouts.app')
 
+<?php
+/**
+ * Recursive function to output the html we need
+ * @param $comments
+ * @param $post
+ */
+function displayComments($comments, $post)
+{
+    foreach($comments as $comment)
+    {
+        echo '<div class="well">';
+        echo '<div>' . $comment->text . '-' . $comment->user->name . '</div>';
+        echo '<div>';
+        if (Auth::check())
+        {
+            echo '<button id="/comment/' . $post->id . '/' . $comment->id .'" class="btn btn-primary btn-xs"><i class="fa fa-reply"></i> Reply</button>';
+        }
+        if ($comment->replies)
+        {
+            displayComments($comment->replies, $post);
+        }
+        echo '</div>';
+        echo '</div>';
+    }
+}
+?>
+
 @section('content')
     <div class="container">
         <div class="col-sm-offset-2 col-sm-8">
@@ -18,52 +45,7 @@
                     @endif
 
                     <div id="comments">
-                        @foreach ($comments as $comment)
-                            <div class="well">
-                                <div>{{ $comment->text }} - {{ $comment->user->name }}</div>
-
-                                <!-- Reply Button -->
-                                <div>
-                                    @if (Auth::check())
-                                    <button id="/comment/{{$post->id}}/{{ $comment->id }}" class="btn btn-primary btn-xs">
-                                        <i class="fa fa-reply"></i> Reply
-                                    </button>
-                                    @endif
-                                </div>
-                                @if ($comment->replies)
-                                    <br>
-                                    @foreach($comment->replies as $reply)
-                                        <div class="well">
-                                            <div>{{ $reply->text }} - {{ $reply->user->name }}</div>
-
-                                            <!-- Reply Button -->
-                                            <div>
-                                                @if (Auth::check())
-                                                <button id="/comment/{{$post->id}}/{{ $reply->id }}" class="btn btn-primary btn-xs">
-                                                    <i class="fa fa-reply"></i> Reply
-                                                </button>
-                                                @endif
-                                            </div>
-                                        @if ($reply->replies)
-                                            <br>
-                                            @foreach($reply->replies as $reply2)
-                                                <div class="well">
-                                                    <div>{{ $reply2->text }} - {{ $reply2->user->name }}</div>
-
-                                                    <!-- Go to Comment Thread -->
-                                                    <div>
-                                                        <a href="/comment/{{$post->id}}/{{ $reply2->id }}/full" class="btn btn-success btn-xs">
-                                                            <i class="fa fa-reply"></i> Go to full comment thread
-                                                        </a>
-                                                    </div>
-                                                </div>
-                                            @endforeach
-                                        @endif
-                                        </div>
-                                    @endforeach
-                                @endif
-                            </div>
-                        @endforeach
+                        <?php displayComments($comments, $post) ?>
                     </div>
                 </div>
         </div>
