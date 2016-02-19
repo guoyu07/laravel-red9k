@@ -28,4 +28,20 @@ class Comment extends Model
 	{
 		return $this->belongsTo(User::class);
 	}
+
+	/*
+	 * The replies to this comment
+	 */
+	public function replies()
+	{
+		return $this->hasMany(Comment::class);
+	}
+
+	/*
+	 * The parent of this comment
+	 */
+	public function parent()
+	{
+		return $this->belongsTo(Comment::class);
+	}
 }

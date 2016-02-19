@@ -25,11 +25,11 @@
 									<!-- Thumbs Up/Down Buttons -->
 										{{ csrf_field() }}
 										<td>
-												<button id="/post/{{ $post->id }}/up" class="btn btn-success btn-sm">
+												<button id="/post/{{ $post->id }}/up" class="btn btn-success btn-xs">
 													<i class="fa fa-thumbs-up"></i>
 												</button>
 												<br>
-												<button id="/post/{{ $post->id }}/down" class="btn btn-danger btn-sm">
+												<button id="/post/{{ $post->id }}/down" class="btn btn-danger btn-xs">
 													<i class="fa fa-thumbs-down"></i>
 												</button>
 										</td>

@@ -26,22 +26,25 @@ class CommentController extends Controller
 	 * Create a comment
 	 *
 	 * @param  Request  $request
-	 * @return Response
+	 * @return Response (JSON)
 	 */
-	public function store(Request $request)
+	public function store(Request $request, Post $post, Comment $comment = null)
 	{
 		$this->validate($request, [
 			'text' => 'required|max:255',
 		]);
 
-		$comment = new Comment;
-		$comment->text = $request->get('text');
-		$comment->post_id = $request->input('id');
-		$comment->user_id = $request->user()->id;
-		$comment->save();
+		$newComment = new Comment;
+		$newComment->text = $request->get('text');
+		$newComment->post_id = $post->id;
+		$newComment->parent_id = $comment->id;
+		if (!$newComment->parent_id) $newComment->parent_id = 0;
+		$newComment->user_id = $request->user()->id;
+		$newComment->save();
 
-		return redirect(route('comments', ['post' => $request->input('id')]));
+		return response()->json(['comment' => $newComment->text, 'id' => $newComment->id]);
 	}
+
 	/**
 	 * Destroy the given post.
 	 *
