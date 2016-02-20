@@ -63,6 +63,10 @@ class UserController extends Controller
 
     /**
      * Confirm page for bans
+     *
+     * @param $request
+     * @param $user
+     * @return view
      */
     public function confirmBan(Request $request, $user)
     {
@@ -73,6 +77,10 @@ class UserController extends Controller
 
     /**
      * Ban user
+     *
+     * @param Request $request
+     * @param $user
+     * @return Redirect
      */
     public function ban(Request $request, $user)
     {
@@ -84,6 +92,9 @@ class UserController extends Controller
 
     /**
      * Check if user is banned.  If so force logout.
+     *
+     * @param Request $request
+     * @return Logout || Redirect
      */
     public function isBanned(Request $request)
     {

@@ -40,6 +40,7 @@
 								@endforeach
 							</tbody>
 						</table>
+						{!! $posts->render() !!}
 					</div>
 				</div>
 			@endif
@@ -84,6 +85,7 @@
 							@endforeach
 							</tbody>
 						</table>
+						{!! $comments->render() !!}
 					</div>
 				</div>
 			@endif

@@ -242,19 +242,30 @@ class PostController extends Controller
      */
 	 private function validateUrl($url)
 	 {
-		if ( preg_match('/http/', $url) == 0 ) return "Url must begin with http";
-		$ch = curl_init($url);
-		curl_exec($ch);
-		$code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-		if ($code == 301 || $code == 302) {
-			return "Invalid status code";
-		}
-		if ( preg_match('/#/', $url) == 1 ) return "Url cannot contain '#'";
-		return null;
+		 echo "<i class=\"fa fa-spinner fa-pulse\"></i>";
+		 if ( preg_match('/http/', $url) == 0 ) return "Url must begin with http";
+		 $ch = curl_init($url);
+		 curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 3);
+		 curl_setopt($ch, CURLOPT_MAXREDIRS, 1);
+		 curl_setopt($ch, CURLOPT_TIMEOUT, 5);
+		 curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+		 curl_setopt($ch, CURLOPT_MAX_RECV_SPEED_LARGE, 100000);
+		 //max 500kb per request
+		 $data = curl_exec($ch);
+		 $code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+		 curl_close($ch);
+		 if ($code == 301 || $code == 302) {
+			 return "Invalid status code";
+		 }
+		 if ( preg_match('/#/', $url) == 1 ) return "Url cannot contain '#'";
+		 return null;
 	 }
 
 	/**
 	 * Check if user is banned.  If so force logout.
+	 *
+	 * @Params Request $request
+	 * @return view || none
 	 */
 	private function isBanned(Request $request)
 	{

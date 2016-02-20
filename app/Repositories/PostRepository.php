@@ -17,7 +17,7 @@ class PostRepository
     {
         return Post::where('user_id', $user)
                     ->orderBy('created_at', 'asc')
-                    ->get();
+					->simplePaginate(25);
     }
 	
 	/**

@@ -9,7 +9,7 @@ class CommentRepository
 {
     /**
      * Get the parent comments for a post with a certain parent id(0 for none)
-     * Paginated by parent comments so the length is a bit unpredictable
+     * If looking for parent comments it will be paginated by parent comments
      *
      * @param Post $post
      * @param integer $commentId

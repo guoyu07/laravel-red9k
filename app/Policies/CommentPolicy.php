@@ -11,7 +11,7 @@ class CommentPolicy
     use HandlesAuthorization;
 
     /**
-     * Determine if the given user can delete the given post.
+     * Determine if the given user can delete the given comment.
      *
      * @param  User  $user
      * @param  Comment $comment
