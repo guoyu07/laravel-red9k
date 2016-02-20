@@ -19,6 +19,7 @@ class CommentRepository
     {
         return Comment::where('post_id', $post->id)
                 ->where('comment_id', $commentId)
+                ->orderBy('voteCount', 'desc')
                 ->simplePaginate(25);
     }
 

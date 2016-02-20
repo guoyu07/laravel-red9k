@@ -246,7 +246,7 @@ class PostController extends Controller
 		$ch = curl_init($url);
 		curl_exec($ch);
 		$code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-		if ($code != 200) {
+		if ($code == 301 || $code == 302) {
 			return "Invalid status code";
 		}
 		if ( preg_match('/#/', $url) == 1 ) return "Url cannot contain '#'";

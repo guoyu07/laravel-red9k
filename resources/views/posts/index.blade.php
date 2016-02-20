@@ -36,10 +36,34 @@
 										<td class="table-text"><div>{{ $post->voteCount }}</div></td>
 										<td class="table-text">
 											<div><a href="{{ $post->url }}">{{ $post->title }}</a></div>
-											<div><a style='font-size: 10px' href="{{ route('comments', ['postId' => $post->id]) }}">Comments</a></div>
+											<div>
+												<a style='font-size: 10px' href="{{ route('comments', ['postId' => $post->id]) }}">Comments</a>
+
+												@if(Auth::check() && Auth::user()->admin)
+													<!-- Post Delete Button -->
+													<form action="/post/{{ $post->id }}/delete" method="POST">
+														{{ csrf_field() }}
+														{{ method_field('DELETE') }}
+														<button type="submit" id="delete-post-{{ $post->id }}" class="btn btn-danger btn-xs">
+															<i class="fa fa-btn fa-trash"></i> Delete Post
+														</button>
+													</form>
+												@endif
+											</div>
 										</td>
 										<td class="table-text"><div>{{ $post->category ? ucfirst($post->category) : 'Misc' }}</div></td>
-										<td class="table-text"><div><a href="{{ route('user', ['user' => $post->user->id]) }}">{{ $post->user->name }}</a></div></td>
+										<td class="table-text">
+											<div><a href="{{ route('user', ['user' => $post->user->id]) }}">{{ $post->user->name }}</a></div>
+
+											<!-- Ban Button -->
+											@if(Auth::check() && Auth::user()->admin)
+												<div>
+													<a href="{{route('confirmBan', ['userId' => $post->user->id])}}" class="btn btn-danger btn-xs">
+														<i class="fa fa-btn fa-ban"></i> Ban User
+													</a>
+												</div>
+											@endif
+										</td>
 									</tr>
 								@endforeach
 							</tbody>

@@ -1,4 +1,4 @@
 -Admin section
 -User profiles
 -Advanced search
--Comment deletion
+-Check for children comments when deleting?

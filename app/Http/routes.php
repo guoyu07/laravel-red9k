@@ -51,6 +51,8 @@ Route::group(['middleware' => ['web']], function () {
 	 * Users
 	*/
     Route::get('user/{user}', ['as' => 'user', 'uses' => 'UserController@index'])->middleware('auth');
+	Route::get('user/confirmBan/{user}', ['as' => 'confirmBan', 'uses' => 'UserController@confirmBan'])->middleware('auth');
+	Route::get('user/ban/{user}', ['as' => 'ban', 'uses' => 'UserController@ban'])->middleware('auth');
 	Route::get('banlist', 'UserController@isBanned');
     Route::auth();
 });

@@ -16,8 +16,23 @@ function displayComments($comments, $post)
         echo '<div>';
         if (Auth::check())
         {
+            if (Auth::user()->admin)
+            {
+                echo "<form action='/comment/" . $comment->id . "/delete' method='POST'>";
+                echo csrf_field();
+                echo method_field('DELETE');
+                echo "<button type='submit' id='delete-comment-" . $comment->id . "' class='btn btn-danger btn-xs'>";
+                echo "<i class='fa fa-btn fa-trash'></i> Delete Comment";
+                echo "</button>";
+                echo "</form>";
+                echo "<br>";
+            }
             echo '<button id="/comment/' . $post->id . '/' . $comment->id .'" class="btn btn-primary btn-xs"><i class="fa fa-reply"></i> Reply</button> ';
-            echo '<button id="/commend/' . $comment->id .'" class="btn btn-success btn-xs"><i class="fa fa-thumbs-up"></i> Commend (' . $comment->voteCount .')</button>';
+            echo '<button id="/commend/' . $comment->id .'" class="btn btn-success btn-xs"><i class="fa fa-thumbs-up"></i> Commend (' . $comment->voteCount .')</button> ';
+            if (Auth::user()->admin)
+            {
+                echo "<a href=" . route('confirmBan', ['userId' => $comment->user->id]) . " class='btn btn-danger btn-xs'><i class='fa fa-ban'></i> Ban User</a> ";
+            }
         }
         if ($comment->replies)
         {

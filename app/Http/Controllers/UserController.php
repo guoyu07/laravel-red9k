@@ -60,4 +60,46 @@ class UserController extends Controller
             'comments' => $this->comments->forUser($user)
         ]);
     }
+
+    /**
+     * Confirm page for bans
+     */
+    public function confirmBan(Request $request, $user)
+    {
+        return view('user.ban', [
+            'user' => $this->users->find($user),
+        ]);
+    }
+
+    /**
+     * Ban user
+     */
+    public function ban(Request $request, $user)
+    {
+        $userToBan = $this->users->find($user);
+        $userToBan->banned = 1;
+        $userToBan->save();
+        return redirect('/posts');
+    }
+
+    /**
+     * Check if user is banned.  If so force logout.
+     */
+    public function isBanned(Request $request)
+    {
+        foreach($this->users->banned() as $user)
+        {
+            if ($user->address == request()->ip())
+            {
+                Auth::logout();
+                return view('auth.banned');
+            }
+        }
+        if ($request->user()->banned)
+        {
+            Auth::logout();
+            return view('auth.banned');
+        }
+        return redirect('/posts');
+    }
 }
