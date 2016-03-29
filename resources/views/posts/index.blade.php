@@ -25,11 +25,11 @@
 									<!-- Thumbs Up/Down Buttons -->
 										{{ csrf_field() }}
 										<td>
-												<button id="/post/{{ $post->id }}/up" class="btn btn-success btn-xs">
+												<button id="/red9k/post/{{ $post->id }}/up" class="btn btn-success btn-xs">
 													<i class="fa fa-thumbs-up"></i>
 												</button>
 												<br>
-												<button id="/post/{{ $post->id }}/down" class="btn btn-danger btn-xs">
+												<button id="/red9k/post/{{ $post->id }}/down" class="btn btn-danger btn-xs">
 													<i class="fa fa-thumbs-down"></i>
 												</button>
 										</td>
@@ -78,7 +78,7 @@
 	</div>
 <script>
 	var csrf = document.getElementsByName('_token')[0].value;
-	$("button[id^='/post/']").click(function() 
+	$("button[id^='/red9k/post/']").click(function() 
 	{
 		var votes = $(this).closest('td').next('td');
 		$.post($(this).attr('id'), { _token: csrf }, function(data)

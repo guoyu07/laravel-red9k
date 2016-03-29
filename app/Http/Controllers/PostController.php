@@ -242,7 +242,7 @@ class PostController extends Controller
      */
 	 private function validateUrl($url)
 	 {
-		 if ( preg_match('/http/', $url) == 0 ) return "Url must begin with http";
+		 //if ( preg_match('/http/', $url) == 0 ) return "Url must begin with http";
 		 $ch = curl_init($url);
 		 curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 3);
 		 curl_setopt($ch, CURLOPT_MAXREDIRS, 1);

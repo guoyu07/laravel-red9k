@@ -18,7 +18,7 @@ function displayComments($comments, $post)
         {
             if (Auth::user()->admin)
             {
-                echo "<form action='/comment/" . $comment->id . "/delete' method='POST'>";
+                echo "<form action='/red9k/comment/" . $comment->id . "/delete' method='POST'>";
                 echo csrf_field();
                 echo method_field('DELETE');
                 echo "<button type='submit' id='delete-comment-" . $comment->id . "' class='btn btn-danger btn-xs'>";
@@ -27,8 +27,8 @@ function displayComments($comments, $post)
                 echo "</form>";
                 echo "<br>";
             }
-            echo '<button id="/comment/' . $post->id . '/' . $comment->id .'" class="btn btn-primary btn-xs"><i class="fa fa-reply"></i> Reply</button> ';
-            echo '<button id="/commend/' . $comment->id .'" class="btn btn-success btn-xs"><i class="fa fa-thumbs-up"></i> Commend (' . $comment->voteCount .')</button> ';
+            echo '<button id="/red9k/comment/' . $post->id . '/' . $comment->id .'" class="btn btn-primary btn-xs"><i class="fa fa-reply"></i> Reply</button> ';
+            echo '<button id="/red9k/commend/' . $comment->id .'" class="btn btn-success btn-xs"><i class="fa fa-thumbs-up"></i> Commend (' . $comment->voteCount .')</button> ';
             if (Auth::user()->admin)
             {
                 echo "<a href=" . route('confirmBan', ['userId' => $comment->user->id]) . " class='btn btn-danger btn-xs'><i class='fa fa-ban'></i> Ban User</a> ";
@@ -70,7 +70,7 @@ function displayComments($comments, $post)
     </div>
 <script>
     var csrf = document.getElementsByName('_token')[0].value;
-    $("button[id^='/comment']").click(function()
+    $("button[id^='/red9k/comment']").click(function()
     {
         if (!$(this).attr('clicked'))
         {
@@ -96,7 +96,7 @@ function displayComments($comments, $post)
     });
 
     var csrf = document.getElementsByName('_token')[0].value;
-    $("button[id^='/commend']").click(function()
+    $("button[id^='/red9k/commend']").click(function()
     {
         var button = $(this);
         $.post($(this).attr('id'), { _token: csrf }, function(data)

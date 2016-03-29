@@ -13,7 +13,7 @@
 					@include('common.errors')
 
 					<!-- New Post Form -->
-					<form action="/post" method="POST" class="form-horizontal">
+					<form action="/red9k/post" method="POST" class="form-horizontal">
 						{{ csrf_field() }}
 
 						<!-- Post Title -->
