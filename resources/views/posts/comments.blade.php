@@ -56,7 +56,7 @@ function displayComments($comments, $post)
 
                     <!-- Comment button -->
                     @if (Auth::check())
-                    <button id="/comment/{{$post->id}}" class="btn btn-primary btn-sm"><i class="fa fa-comments-o"></i> Post a comment</button><br><br>
+                    <button id="/red9k/comment/{{$post->id}}" class="btn btn-primary btn-sm"><i class="fa fa-comments-o"></i> Post a comment</button><br><br>
                     @else
                     <a href="/login">Sign in</a> to participate<br><br>
                     @endif
