@@ -12,10 +12,11 @@
 					<br>
 					Rules:
 					<ul>
+                        <li>Be a decent human being</li>
 						<li>Links may only be shared once</li>
 						<li>URL shorteners are not allowed</li>
 						<li>No illegal stuff</li>
-						<li>Direct links to content creators sites are preferred</li>
+						<li>Direct links to content creators sites are preferred over rehosting sites like imgur</li>
 					</ul>
 					Violating the rules may result in a ban. <br>
                 </div>

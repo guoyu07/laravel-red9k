@@ -54,12 +54,28 @@
 							<div class="col-sm-offset-3 col-sm-6">
 								<button type="submit" class="btn btn-default">
 									<i class="fa fa-btn fa-plus"></i>Add Post
+									<span id="spinner"><i class="fa fa-spinner fa-pulse"></i></span>
 								</button>
 							</div>
 						</div>
+
+
 					</form>
 				</div>
 			</div>
 		</div>
 	</div>
+<script>
+	var spinner = $("#spinner");
+	$(document).ready(function()
+	{
+		spinner.hide();
+	})
+
+	$("button").click(function()
+	{
+		spinner.show();
+	});
+</script>
+
 @endsection

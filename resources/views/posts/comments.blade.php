@@ -49,7 +49,7 @@ function displayComments($comments, $post)
         <div class="col-sm-offset-2 col-sm-8">
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    <a href="{{ $post->url }}">{{ $post->title }}</a>
+                    <h3><a href="{{ $post->url }}">{{ $post->title }}</a></h3>
                 </div>
                 {{ csrf_field() }}
                 <div class="panel-body">
@@ -58,7 +58,7 @@ function displayComments($comments, $post)
                     @if (Auth::check())
                     <button id="/comment/{{$post->id}}" class="btn btn-primary btn-sm"><i class="fa fa-comments-o"></i> Post a comment</button><br><br>
                     @else
-                    Log in to post comments<br><br>
+                    <a href="/login">Sign in</a> to participate<br><br>
                     @endif
 
                     <div id="comments">
