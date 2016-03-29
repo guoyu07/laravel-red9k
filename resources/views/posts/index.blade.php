@@ -41,7 +41,7 @@
 
 												@if(Auth::check() && Auth::user()->admin)
 													<!-- Post Delete Button -->
-													<form action="/post/{{ $post->id }}/delete" method="POST">
+													<form action="/red9k/post/{{ $post->id }}/delete" method="POST">
 														{{ csrf_field() }}
 														{{ method_field('DELETE') }}
 														<button type="submit" id="delete-post-{{ $post->id }}" class="btn btn-danger btn-xs">

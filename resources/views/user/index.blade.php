@@ -24,7 +24,7 @@
 										@if ($post->user->id === Auth::user()->id)
 											<!-- Post Delete Button -->
 											<td>
-												<form action="/post/{{ $post->id }}/delete" method="POST">
+												<form action="/red9k/post/{{ $post->id }}/delete" method="POST">
 													{{ csrf_field() }}
 													{{ method_field('DELETE') }}
 
@@ -69,7 +69,7 @@
 									@if ($post->user->id === Auth::user()->id)
 											<!-- Comment Delete Button -->
 									<td>
-										<form action="/comment/{{ $comment->id }}/delete" method="POST">
+										<form action="/red9k/comment/{{ $comment->id }}/delete" method="POST">
 											{{ csrf_field() }}
 											{{ method_field('DELETE') }}
 
