@@ -93,7 +93,7 @@
 
     <script>
         $("#search").click(function() {
-            window.location.assign("/posts/search?q=" + $("#term").val());
+            window.location.assign("/red9k/posts/search?q=" + $("#term").val());
         });
     </script>
     @yield('content')
